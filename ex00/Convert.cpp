@@ -14,8 +14,8 @@ void    to_int(std::string input)
 {
     std::cout << "char: " << input[0] << std::endl;
     std::cout << "int: " << static_cast<int>(std::atoi(input.c_str())) << std::endl;
-    std::cout << "float: " << std::fixed <<std::setprecision(1)<< static_cast<float>(input[0]) << std::endl;
-    std::cout << "double: " << std::fixed <<std::setprecision(1)<< static_cast<double>(input[0]) << std::endl;
+    std::cout << "float: " << std::fixed <<std::setprecision(1)<< static_cast<float>(std::atoi(input.c_str())) << std::endl;
+    std::cout << "double: " << std::fixed <<std::setprecision(1)<< static_cast<double>(std::atoi(input.c_str())) << std::endl;
 }
 
 void    ScalarConverter::Convert(std::string input)
