@@ -10,12 +10,28 @@ void    to_char(std::string input)
     std::cout << "double: " << std::fixed <<std::setprecision(1)<< static_cast<double>(input[0]) << std::endl;
 }
 
-void    to_int(std::string input)
+void    to_single_int(std::string input)
 {
-    std::cout << "char: " << input[0] << std::endl;
+    std::cout << "char: Non displayable"<< std::endl;
     std::cout << "int: " << static_cast<int>(std::atoi(input.c_str())) << std::endl;
     std::cout << "float: " << std::fixed <<std::setprecision(1)<< static_cast<float>(std::atoi(input.c_str())) << std::endl;
     std::cout << "double: " << std::fixed <<std::setprecision(1)<< static_cast<double>(std::atoi(input.c_str())) << std::endl;
+}
+
+void    to_number(std::string input)
+{
+    int input_num = std::atoi(input.c_str());
+    
+    if(isprint(input_num))
+        std::cout << "char: '" << static_cast<char>(input_num) <<"'" <<std::endl;
+    else if (input_num > 128)
+        std::cout << "char: Impossible" << std::endl;
+    else
+        std::cout << "char: Non displayable" << std::endl;
+    std::cout << "int: " << static_cast<int>(std::atoi(input.c_str())) << std::endl;
+    (input);
+    std::cout << "float: " << std::fixed <<std::setprecision(2)<< static_cast<float>(std::strtod(input.c_str(),NULL)) << "f"<<std::endl;
+    std::cout << "double: " << std::fixed <<std::setprecision(2)<< static_cast<double>(std::strtod(input.c_str(),NULL)) << std::endl;
 }
 
 bool    isValidnumber(std::string input)
@@ -62,9 +78,10 @@ void    ScalarConverter::Convert(std::string input)
     if(input.length() == 1 && !isdigit(input[0]))
         to_char(input);
     else if(input.length() == 1 && isdigit(input[0]))
-        to_int(input);
-    std::cout<< isValidnumber(input) << std::endl;
-    // else if(input.length() > 1 && isValidNumber(input))
-        // to_number(input);
+        to_single_int(input);
+    else if(input.length() > 1 && isValidnumber(input))
+        to_number(input);
+    else
+        std::cout<<"invalid\n";
 }
 
