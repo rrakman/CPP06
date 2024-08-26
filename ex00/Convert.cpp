@@ -18,9 +18,17 @@ void    to_single_int(std::string input)
     std::cout << "double: " << std::fixed <<std::setprecision(1)<< static_cast<double>(std::atoi(input.c_str())) << std::endl;
 }
 
+int get_afterdot_size(std::string input)
+{
+    std::size_t pos = input.find(".");
+    if(pos == std::string::npos)
+        return 1;
+    return input.length() - pos - 1;
+}
+
 void    to_number(std::string input)
 {
-    int input_num = std::atoi(input.c_str());
+    long input_num = std::atol(input.c_str());
     
     if(isprint(input_num))
         std::cout << "char: '" << static_cast<char>(input_num) <<"'" <<std::endl;
@@ -28,10 +36,13 @@ void    to_number(std::string input)
         std::cout << "char: Impossible" << std::endl;
     else
         std::cout << "char: Non displayable" << std::endl;
-    std::cout << "int: " << static_cast<int>(std::atoi(input.c_str())) << std::endl;
-    (input);
-    std::cout << "float: " << std::fixed <<std::setprecision(2)<< static_cast<float>(std::strtod(input.c_str(),NULL)) << "f"<<std::endl;
-    std::cout << "double: " << std::fixed <<std::setprecision(2)<< static_cast<double>(std::strtod(input.c_str(),NULL)) << std::endl;
+    if (input_num > std::numeric_limits<int>::max() || input_num < std::numeric_limits<int>::min())
+        std::cout << "int: Impossible" << std::endl;
+    else
+        std::cout << "int: " << static_cast<int> (std::atoi(input.c_str())) << std::endl;
+    int size = get_afterdot_size(input);
+    std::cout << "float: " << std::fixed <<std::setprecision(size)<< static_cast<float>(std::strtod(input.c_str(),NULL)) << "f"<<std::endl;
+    std::cout << "double: " << std::fixed <<std::setprecision(size)<< static_cast<double>(std::strtod(input.c_str(),NULL)) << std::endl;
 }
 
 bool    isValidnumber(std::string input)
@@ -81,7 +92,7 @@ void    ScalarConverter::Convert(std::string input)
         to_single_int(input);
     else if(input.length() > 1 && isValidnumber(input))
         to_number(input);
-    else
+    else if (input == "nan" || input == "nanf" || input == "+inf" || input == "+inff" || input == "-inf" || input == "-inff")
         std::cout<<"invalid\n";
 }
 
