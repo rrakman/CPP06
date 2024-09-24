@@ -29,6 +29,7 @@ int get_afterdot_size(std::string input)
 void    to_number(std::string input)
 {
     long input_num = std::atol(input.c_str());
+    int size = get_afterdot_size(input);
     
     if(isprint(input_num))
         std::cout << "char: '" << static_cast<char>(input_num) <<"'" <<std::endl;
@@ -36,13 +37,22 @@ void    to_number(std::string input)
         std::cout << "char: Impossible" << std::endl;
     else
         std::cout << "char: Non displayable" << std::endl;
+    
     if (input_num > std::numeric_limits<int>::max() || input_num < std::numeric_limits<int>::min())
         std::cout << "int: Impossible" << std::endl;
     else
         std::cout << "int: " << static_cast<int> (std::atoi(input.c_str())) << std::endl;
-    int size = get_afterdot_size(input);
-    std::cout << "float: " << std::fixed <<std::setprecision(size)<< static_cast<float>(std::strtod(input.c_str(),NULL)) << "f"<<std::endl;
-    std::cout << "double: " << std::fixed <<std::setprecision(size)<< static_cast<double>(std::strtod(input.c_str(),NULL)) << std::endl;
+
+    if (std::strtof(input.c_str(),NULL) > std::numeric_limits<float>::max() || std::strtof(input.c_str(),NULL) < std::numeric_limits<float>::min())
+    {
+        std::cout << "float: inff" << std::endl;
+        std::cout << "double: inff" << std::endl;
+    }
+    else
+    {
+        std::cout << "float: " << std::fixed << std::setprecision(size) << static_cast<float>(std::strtof(input.c_str(),NULL)) << "f"<<std::endl;
+        std::cout << "double: " << std::fixed << std::setprecision(size) << static_cast<double>(std::strtod(input.c_str(),NULL)) << std::endl;
+    }
 }
 
 bool    isValidnumber(std::string input)
@@ -84,6 +94,14 @@ bool    isValidnumber(std::string input)
     return true;
 }
 
+void    print_invalid()
+{
+    std::cout<<"char: impossible\n";
+    std::cout<<"int: impossible\n";
+    std::cout<<"float: nanf\n";
+    std::cout<<"double: nan\n";
+}
+
 void    ScalarConverter::Convert(std::string input)
 {
     if(input.length() == 1 && !isdigit(input[0]))
@@ -92,7 +110,7 @@ void    ScalarConverter::Convert(std::string input)
         to_single_int(input);
     else if(input.length() > 1 && isValidnumber(input))
         to_number(input);
-    else if (input == "nan" || input == "nanf" || input == "+inf" || input == "+inff" || input == "-inf" || input == "-inff")
-        std::cout<<"invalid\n";
+    else
+        print_invalid();
 }
 
