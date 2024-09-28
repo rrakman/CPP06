@@ -23,6 +23,8 @@ int get_afterdot_size(std::string input)
     std::size_t pos = input.find(".");
     if(pos == std::string::npos)
         return 1;
+    if(input.length() - pos - 1 == 0)
+        return 1;
     return input.length() - pos - 1;
 }
 
@@ -30,7 +32,7 @@ void    to_number(std::string input)
 {
     long input_num = std::atol(input.c_str());
     int size = get_afterdot_size(input);
-    
+  
     if(isprint(input_num))
         std::cout << "char: '" << static_cast<char>(input_num) <<"'" <<std::endl;
     else if (input_num > 128)
@@ -43,10 +45,15 @@ void    to_number(std::string input)
     else
         std::cout << "int: " << static_cast<int> (std::atoi(input.c_str())) << std::endl;
 
-    if (std::strtof(input.c_str(),NULL) > std::numeric_limits<float>::max() || std::strtof(input.c_str(),NULL) < std::numeric_limits<float>::min())
+    if (std::strtof(input.c_str(),NULL) < -3.40282e+38)
     {
-        std::cout << "float: inff" << std::endl;
-        std::cout << "double: inff" << std::endl;
+        std::cout << "float: -inff" << std::endl;
+        std::cout << "double: -inff" << std::endl;
+    }
+    else if (std::strtof(input.c_str(),NULL) > std::numeric_limits<float>::max())
+    {
+        std::cout << "float: +inff" << std::endl;
+        std::cout << "double: +inff" << std::endl;
     }
     else
     {
