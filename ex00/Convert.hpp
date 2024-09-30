@@ -7,7 +7,9 @@ class ScalarConverter
 {
     private:
         ScalarConverter();
-        ~ScalarConverter();
     public:
+        ~ScalarConverter();
+        ScalarConverter(const ScalarConverter &ref);
+        ScalarConverter& operator=(const ScalarConverter &ref);
         static  void    Convert(std::string input);
 };

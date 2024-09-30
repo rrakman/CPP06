@@ -1,12 +1,17 @@
 #include "Convert.hpp"
 
 ScalarConverter::ScalarConverter() {}
+ScalarConverter::~ScalarConverter() {}
+ScalarConverter::ScalarConverter(const ScalarConverter __unused &ref) {}
+ScalarConverter& ScalarConverter::operator=(const ScalarConverter __unused &ref) {
+    return *this;
+}
 
 void    to_char(std::string input)
 {
     std::cout << "char: " << input[0] << std::endl;
     std::cout << "int: " << static_cast<int>(input[0]) << std::endl;
-    std::cout << "float: " << std::fixed <<std::setprecision(1)<< static_cast<float>(input[0]) << std::endl;
+    std::cout << "float: " << std::fixed <<std::setprecision(1)<< static_cast<float>(input[0]) << "f"<<std::endl;
     std::cout << "double: " << std::fixed <<std::setprecision(1)<< static_cast<double>(input[0]) << std::endl;
 }
 
@@ -14,7 +19,7 @@ void    to_single_int(std::string input)
 {
     std::cout << "char: Non displayable"<< std::endl;
     std::cout << "int: " << static_cast<int>(std::atoi(input.c_str())) << std::endl;
-    std::cout << "float: " << std::fixed <<std::setprecision(1)<< static_cast<float>(std::atoi(input.c_str())) << std::endl;
+    std::cout << "float: " << std::fixed <<std::setprecision(1)<< static_cast<float>(std::atoi(input.c_str())) << "f" << std::endl;
     std::cout << "double: " << std::fixed <<std::setprecision(1)<< static_cast<double>(std::atoi(input.c_str())) << std::endl;
 }
 
@@ -109,6 +114,20 @@ void    print_invalid()
     std::cout<<"double: nan\n";
 }
 
+void infinity(std::string input)
+{
+        std::cout << "char: impossible\n";
+        std::cout << "int: impossible\n";
+        if(input == "+inff" || input == "+inf")
+            std::cout << "float: " << "+inff" << std::endl;
+        else
+            std::cout << "float: " << "-inff" << std::endl;
+        if(input == "+inff" || input == "+inf")
+            std::cout << "double: " << "+inf" << std::endl;
+        else
+            std::cout << "double: " << "-inf" << std::endl;
+}
+
 void    ScalarConverter::Convert(std::string input)
 {
     if(input.length() == 1 && !isdigit(input[0]))
@@ -117,7 +136,8 @@ void    ScalarConverter::Convert(std::string input)
         to_single_int(input);
     else if(input.length() > 1 && isValidnumber(input))
         to_number(input);
+    else if(input == "+inf" || input == "-inf" || input == "+inff" || input == "-inff")
+        infinity(input);
     else
         print_invalid();
 }
-
