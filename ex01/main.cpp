@@ -9,6 +9,7 @@ int main()
     std::cout<< "Data: " << data->getData() << std::endl;
 
     uintptr_t p = Serialize::serialize(data);
+    // you better not play with bits
     Data * newdata = Serialize::deserialize(p);
 
     std::cout<< "Data: " << newdata->getData() << std::endl;
