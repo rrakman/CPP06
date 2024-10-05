@@ -74,5 +74,6 @@ int main()
     Base &baser = *basep;
     identify(baser);
     identify(basep);
+    delete basep;
     return 0;
 }
